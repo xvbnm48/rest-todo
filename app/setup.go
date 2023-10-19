@@ -19,13 +19,13 @@ func SetupAndRunApp() error {
 	}
 
 	// start database
-	err = database.StartMongoDB()
+	err = database.StartDB()
 	if err != nil {
 		return err
 	}
 
 	// defer closing database
-	defer database.CloseMongoDB()
+	defer database.CloseDB()
 
 	// create app
 	app := fiber.New()

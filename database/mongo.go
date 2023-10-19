@@ -1,51 +1,47 @@
 package database
 
 import (
-	"context"
+	"database/sql"
 	"errors"
+	_ "github.com/go-sql-driver/mysql"
 	"os"
-
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var mongoClient *mongo.Client
-var dbName string
+var db *sql.DB
 
-func GetCollection(name string) *mongo.Collection {
-	return mongoClient.Database(dbName).Collection(name)
+func GetDB() (*sql.DB, error) {
+	if db == nil {
+		return nil, errors.New("error open db")
+	}
+	return db, nil
 }
 
-func StartMongoDB() error {
-	uri := os.Getenv("MONGODB_URI")
+func StartDB() error {
+	uri := os.Getenv("DB_URI")
 	if uri == "" {
-		return errors.New("you must set your 'MONGODB_URI' environmental variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable")
-	}
-
-	database := os.Getenv("DATABASE")
-	if database == "" {
-		return errors.New("you must set your 'DATABASE' environmental variable")
-	} else {
-		dbName = database
+		return errors.New("you must set your 'DB_URI' environmental variable")
 	}
 
 	var err error
-	mongoClient, err = mongo.Connect(context.Background(), options.Client().ApplyURI(uri))
+	db, err = sql.Open("mysql", uri)
 	if err != nil {
-		panic(err)
+		return err
 	}
-	
-	err = mongoClient.Ping(context.Background(), nil)
+
+	err = db.Ping()
 	if err != nil {
-		return errors.New("can't verify a connection")
+		return errors.New("dont derived connections")
 	}
-	
+
 	return nil
 }
 
-func CloseMongoDB() {
-	err := mongoClient.Disconnect(context.Background())
-	if err != nil {
-		panic(err)
+func CloseDB() error {
+	if db != nil {
+		err := db.Close()
+		if err != nil {
+			return err
+		}
 	}
+	return nil
 }

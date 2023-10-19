@@ -1,11 +1,22 @@
 package models
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import "time"
 
 type Todo struct {
-	ID          primitive.ObjectID `json:"id" bson:"_id"`
-	Title       string             `json:"title" bson:"title"`
-	Completed   bool               `json:"completed" bson:"completed"`
-	Description string             `json:"description" bson:"description"`
-	Date        string             `json:"date" bson:"date"`
+	ID          int64  `json:"id"`
+	Title       string `json:"title"`
+	Completed   bool   `json:"completed"`
+	Description string `json:"description"`
+	Date        string `json:"date" `
+}
+
+type CreateTodoDTO struct {
+	Title       string    `json:"title"`
+	Completed   bool      `json:"completed"`
+	Description string    `json:"description"`
+	Date        time.Time `json:"date"`
+}
+
+type CreateTodoResDTO struct {
+	InsertedId int64 `json:"inserted_id"`
 }
