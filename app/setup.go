@@ -3,12 +3,12 @@ package app
 import (
 	"os"
 
-	"github.com/bmdavis419/the-better-backend/config"
-	"github.com/bmdavis419/the-better-backend/database"
-	"github.com/bmdavis419/the-better-backend/router"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/xvbnm48/rest-todo/config"
+	"github.com/xvbnm48/rest-todo/database"
+	"github.com/xvbnm48/rest-todo/router"
 )
 
 func SetupAndRunApp() error {

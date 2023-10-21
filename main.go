@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/bmdavis419/the-better-backend/app"
-	_ "github.com/bmdavis419/the-better-backend/docs"
+	"github.com/xvbnm48/rest-todo/app"
+	_ "github.com/xvbnm48/rest-todo/docs"
 )
 
 // @title The Better Backend Template

@@ -1,8 +1,8 @@
 package router
 
 import (
-	"github.com/bmdavis419/the-better-backend/handlers"
 	"github.com/gofiber/fiber/v2"
+	"github.com/xvbnm48/rest-todo/handlers"
 )
 
 func SetupRoutes(app *fiber.App) {
@@ -12,6 +12,7 @@ func SetupRoutes(app *fiber.App) {
 	todos := app.Group("/todos")
 	todos.Get("/", handlers.HandleAllTodos)
 	todos.Post("/", handlers.HandleCreateTodo)
+	todos.Post("/update", handlers.HandleUpdateTodo)
 	//todos.Put("/:id", handlers.HandleUpdateTodo)
 	//todos.Get("/:id", handlers.HandleGetOneTodo)
 	//todos.Delete("/:id", handlers.HandleDeleteTodo)

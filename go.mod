@@ -1,4 +1,4 @@
-module github.com/bmdavis419/the-better-backend
+module github.com/xvbnm48/rest-todo
 
 go 1.19
 

@@ -4,7 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/swagger"
 
-	_ "github.com/bmdavis419/the-better-backend/docs"
+	_ "github.com/xvbnm48/rest-todo/docs"
 )
 
 func AddSwaggerRoutes(app *fiber.App) {
