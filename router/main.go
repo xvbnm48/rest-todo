@@ -13,6 +13,8 @@ func SetupRoutes(app *fiber.App) {
 	todos.Get("/", handlers.HandleAllTodos)
 	todos.Post("/", handlers.HandleCreateTodo)
 	todos.Post("/update", handlers.HandleUpdateTodo)
+	todos.Get("/:id", handlers.HandlersGetTodosById)
+	todos.Delete("/delete/:id", handlers.HandlersDeleteTodos)
 	//todos.Put("/:id", handlers.HandleUpdateTodo)
 	//todos.Get("/:id", handlers.HandleGetOneTodo)
 	//todos.Delete("/:id", handlers.HandleDeleteTodo)

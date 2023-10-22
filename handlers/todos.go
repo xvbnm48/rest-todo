@@ -160,3 +160,76 @@ func HandleUpdateTodo(c *fiber.Ctx) error {
 		"response": "success",
 	})
 }
+
+func HandlersGetTodosById(c *fiber.Ctx) error {
+	idTodo := c.Params("id")
+
+	fmt.Println("id:", idTodo)
+
+	db, err := database.GetDB()
+	if err != nil {
+		return err
+	}
+
+	rows, err := db.Query(`SELECT * FROM todo where id = ?`, idTodo)
+	fmt.Println(rows)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			"status":         http.StatusText(fiber.StatusInternalServerError),
+			"code":           fiber.StatusInternalServerError,
+			"error query DB": err.Error(),
+		})
+	}
+
+	defer rows.Close()
+
+	var todo models.TodoData
+
+	if rows.Next() {
+		if err := rows.Scan(&todo.ID, &todo.Title, &todo.Completed, &todo.Description, &todo.Date); err != nil {
+			return c.Status(http.StatusNotFound).JSON(fiber.Map{
+				"status":        http.StatusText(fiber.StatusNotFound),
+				"code":          fiber.StatusInternalServerError,
+				"error scan DB": err.Error(),
+			})
+		}
+	} else {
+		return c.Status(http.StatusNotFound).JSON(fiber.Map{
+			"status":  http.StatusText(fiber.StatusInternalServerError),
+			"code":    fiber.StatusInternalServerError,
+			"message": "data not found",
+		})
+	}
+
+	return c.Status(200).JSON(fiber.Map{
+		"status":   fiber.StatusOK,
+		"code":     fiber.StatusOK,
+		"message":  "success",
+		"response": todo,
+	})
+}
+
+func HandlersDeleteTodos(c *fiber.Ctx) error {
+	idTodo := c.Params("id")
+
+	db, err := database.GetDB()
+	if err != nil {
+		return err
+	}
+
+	_, err = db.Exec(`DELETE FROM todo WHERE id = ?`, idTodo)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			"status":     http.StatusText(fiber.StatusInternalServerError),
+			"code":       fiber.StatusInternalServerError,
+			"error exec": err.Error(),
+		})
+	}
+
+	return c.Status(200).JSON(fiber.Map{
+		"status":   http.StatusText(fiber.StatusOK),
+		"code":     fiber.StatusOK,
+		"message":  "success",
+		"response": "success deleted todos id " + idTodo,
+	})
+}

@@ -28,3 +28,11 @@ type UpdateTodoDTO struct {
 	Description string    `json:"description"`
 	Date        time.Time `json:"date"`
 }
+
+type TodoData struct {
+	ID          string    `json:"id"`
+	Title       string    `json:"title"`
+	Completed   bool      `json:"completed"`
+	Description string    `json:"description"`
+	Date        time.Time `json:"date"`
+}
